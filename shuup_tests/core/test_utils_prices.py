@@ -19,7 +19,7 @@ from shuup.core.models import (
 from shuup.core.pricing import PriceInfo, TaxfulPrice, TaxlessPrice
 from shuup.core.taxing import SourceLineTax, TaxedPrice, TaxModule
 from shuup.core.utils.prices import convert_taxness
-from shuup.utils import babel_precision_provider
+from shuup.utils import money_babel_utils
 from shuup.utils.money import Money, set_precision_provider
 from shuup.testing.factories import get_currency
 
@@ -36,7 +36,7 @@ def setup_module(module):
     tax_mod_overrider.__enter__()
 
     # uses the get_precision to avoid db hits
-    set_precision_provider(babel_precision_provider.get_precision)
+    set_precision_provider(money_babel_utils.get_precision)
 
 
 def teardown_module(module):

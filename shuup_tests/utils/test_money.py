@@ -10,7 +10,7 @@ from django.conf import settings
 from decimal import Decimal, ROUND_FLOOR, ROUND_HALF_DOWN
 from mock import patch
 
-from shuup.utils import babel_precision_provider, money
+from shuup.utils import money_babel_utils, money
 from shuup.utils.money import Money, set_precision_provider
 
 
@@ -79,7 +79,7 @@ def test_money_basics():
 
 
 def test_as_rounded_returns_same_type():
-    set_precision_provider(babel_precision_provider.get_precision)
+    set_precision_provider(money_babel_utils.get_precision)
 
     class CoolMoney(Money):
         is_cool = True
@@ -92,7 +92,7 @@ def test_as_rounded_returns_same_type():
 @pytest.mark.parametrize('currency,digits', [
     ('USD', 2), ('EUR', 2), ('JPY', 0), ('CLF', 4), ('BRL', 2)])
 def test_as_rounded_values(currency, digits):
-    set_precision_provider(babel_precision_provider.get_precision)
+    set_precision_provider(money_babel_utils.get_precision)
 
     amounts = [
         '1', '2', '3', '4',
@@ -122,7 +122,7 @@ def test_as_rounded_values(currency, digits):
 
 
 def test_as_rounded_rounding_mode():
-    set_precision_provider(babel_precision_provider.get_precision)
+    set_precision_provider(money_babel_utils.get_precision)
 
     prec2 = Decimal('0.01')
     m1 = Money('2.345', 'EUR')
@@ -148,8 +148,8 @@ def test_set_precision_provider():
     set_precision_provider(get_precision)
     assert money._precision_provider == get_precision
 
-    set_precision_provider(babel_precision_provider.get_precision)
-    assert money._precision_provider == babel_precision_provider.get_precision
+    set_precision_provider(money_babel_utils.get_precision)
+    assert money._precision_provider == money_babel_utils.get_precision
 
 
 def test_set_precision_provider_with_non_callable():

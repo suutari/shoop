@@ -7,7 +7,7 @@
 
 import decimal
 
-from . import babel_precision_provider, numbers
+from . import money_babel_utils, numbers
 
 DEFAULT_PRECISION = decimal.Decimal('0.01')
 
@@ -92,7 +92,7 @@ def set_precision_provider(precision_provider):
     Set precision provider for Money instances.
 
     Default precision provider is
-    `shuup.utils.babel_precision_provider.get_precision`.
+    `shuup.utils.money_babel_utils.get_precision`.
 
     :type precision_provider: Callable[[str], decimal.Decimal|None]
     :param precision_provider:
@@ -105,7 +105,7 @@ def set_precision_provider(precision_provider):
     _precision_provider = precision_provider
 
 
-_precision_provider = babel_precision_provider.get_precision
+_precision_provider = money_babel_utils.get_precision
 
 
 def _get_precision(currency, digits):
