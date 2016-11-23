@@ -86,6 +86,13 @@ class Money(numbers.UnittedDecimal):
         precision = _get_precision(self.currency, digits)
         return self.new(self.value.quantize(precision, rounding=rounding))
 
+    def format(self, digits=None, widen=0, locale=None):
+        return _formatter(self.value, self.currency, digits, widen, locale)
+
+    @classmethod
+    def default_precision_by_currency(cls, currency):
+        return _get_precision(currency, None)
+
 
 def set_precision_provider(precision_provider):
     """
@@ -118,4 +125,13 @@ def _get_precision(currency, digits):
     return precision
 
 
-_digits_to_precision = {2: decimal.Decimal('0.01')}
+_digits_to_precision = {n: decimal.Decimal('0.1') ** n for n in range(10)}
+
+
+def set_formatter(formatter):
+    assert callable(formatter)
+    global _formatter
+    _formatter = formatter
+
+
+_formatter = money_babel_utils.format_money

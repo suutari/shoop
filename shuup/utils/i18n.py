@@ -80,7 +80,7 @@ def format_money(amount, digits=None, widen=0, locale=None):
     the amount's currency is used.
 
     :param amount: The Money object to format
-    :type amount: Money
+    :type amount: shuup.utils.money.Money
     :param digits: How many digits to format the currency with.
     :type digits: int|None
     :param widen: How many digits to widen any existing decimal width with.

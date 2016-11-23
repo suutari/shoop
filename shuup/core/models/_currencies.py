@@ -9,8 +9,6 @@ from __future__ import unicode_literals
 
 import decimal
 
-import babel
-from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -33,13 +31,6 @@ class Currency(models.Model):
     decimal_places = models.PositiveSmallIntegerField(verbose_name=_("decimal places"),
                                                       validators=[MaxValueValidator(10)],
                                                       default=2)
-
-    def clean(self):
-        super(Currency, self).clean()
-
-        # make sure the code is a valid ISO-4217 currency
-        if self.code not in babel.Locale("en").currency_symbols:
-            raise ValidationError(_('Enter a valid ISO-4217 currency code'))
 
     def save(self, *args, **kwargs):
         super(Currency, self).save(*args, **kwargs)
